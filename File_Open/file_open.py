@@ -6,7 +6,7 @@ def read_recepts(filename):
       recept = recept.strip()
       recept = recept.lower()
       ingredient_num = int(f.readline())
-      if book.get(recept) is None:
+      if recept not in book:
         book[recept] = []
         for s in range(ingredient_num):
           product = f.readline()
@@ -21,7 +21,7 @@ def read_recepts(filename):
         break
   return book
 
-def get_shop_list_by_dishes(dishes, person_count):
+def get_shop_list_by_dishes(dishes, person_count, cook_book):
   shop_list = {}
   for dish in dishes:
     for ingridient in cook_book[dish]:
@@ -43,9 +43,8 @@ def create_shop_list():
   person_count = int(input('Введите количество человек: '))
   dishes = input('Введите блюда в расчете на одного человека (через запятую): ') \
     .lower().split(', ')
-  shop_list = get_shop_list_by_dishes(dishes, person_count)
+  cook_book = read_recepts('recepts.txt')
+  shop_list = get_shop_list_by_dishes(dishes, person_count, cook_book)
   print_shop_list(shop_list)
-
-cook_book = read_recepts('recepts.txt')
 
 create_shop_list()

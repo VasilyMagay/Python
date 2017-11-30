@@ -1,5 +1,6 @@
 import os
 
+
 def find_word(curr_list, migr_dir):
 
     new_list = []
@@ -7,15 +8,14 @@ def find_word(curr_list, migr_dir):
 
     for filename in curr_list:
         with open(os.path.join(migr_dir, filename)) as f:
-            for line in f:
-                if word in line:
-                    new_list.append(filename)
-                    print(filename)
-                    break
-    
+            if word in f.read():
+                new_list.append(filename)
+                print(filename)
+
     print('Всего: {}'.format(len(new_list)))
     
     return new_list
+
 
 def run_search():
     
@@ -27,15 +27,14 @@ def run_search():
     
     work_list = []
     for file in file_list:
-        file_parts = file.split('.')
-        if file_parts[len(file_parts)-1] == 'sql':
+        if os.path.splitext(file)[1] == '.sql':
             work_list.append(file)
     
     while True:
         work_list = find_word(work_list, migr_dir)
-        if len(work_list) == 0:
+        if not work_list:
             break
+
 
 if __name__ == '__main__':
     run_search()
-            
